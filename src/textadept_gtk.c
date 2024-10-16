@@ -456,28 +456,30 @@ void *read_menu(lua_State *L, int index) {
 	}
 	lua_pop(L, 1); // title
 	for (size_t i = 1; i <= lua_rawlen(L, index); lua_pop(L, 1), i++) {
-		if (lua_rawgeti(L, -1, i) != LUA_TTABLE) continue; // popped on loop
+		if (lua_rawgeti(L, index, i) != LUA_TTABLE) continue; // popped on loop
 		bool is_submenu = lua_getfield(L, -1, "title");
 		if (lua_pop(L, 1), is_submenu) {
 			gtk_menu_shell_append(GTK_MENU_SHELL(menu), read_menu(L, -1));
 			continue;
 		}
 		const char *label = (lua_rawgeti(L, -1, 1), lua_tostring(L, -1));
-		if (lua_pop(L, 1), !label) continue;
-		// Menu item table is of the form {label, id, key, modifiers}.
-		GtkWidget *menu_item =
-			*label ? gtk_menu_item_new_with_mnemonic(label) : gtk_separator_menu_item_new();
-		if (*label && get_int_field(L, -1, 3) > 0) {
-			int key = get_int_field(L, -1, 3), modifiers = get_int_field(L, -1, 4), gdk_mods = 0;
-			if (modifiers & SCMOD_SHIFT) gdk_mods |= GDK_SHIFT_MASK;
-			if (modifiers & SCMOD_CTRL) gdk_mods |= GDK_CONTROL_MASK;
-			if (modifiers & SCMOD_ALT) gdk_mods |= GDK_MOD1_MASK;
-			if (modifiers & SCMOD_META) gdk_mods |= GDK_META_MASK;
-			gtk_widget_add_accelerator(menu_item, "activate", accel, key, gdk_mods, GTK_ACCEL_VISIBLE);
+		if (label) {
+			// Menu item table is of the form {label, id, key, modifiers}.
+			GtkWidget *menu_item =
+				*label ? gtk_menu_item_new_with_mnemonic(label) : gtk_separator_menu_item_new();
+			if (*label && get_int_field(L, -2, 3) > 0) {
+				int key = get_int_field(L, -2, 3), modifiers = get_int_field(L, -2, 4), gdk_mods = 0;
+				if (modifiers & SCMOD_SHIFT) gdk_mods |= GDK_SHIFT_MASK;
+				if (modifiers & SCMOD_CTRL) gdk_mods |= GDK_CONTROL_MASK;
+				if (modifiers & SCMOD_ALT) gdk_mods |= GDK_MOD1_MASK;
+				if (modifiers & SCMOD_META) gdk_mods |= GDK_META_MASK;
+				gtk_widget_add_accelerator(menu_item, "activate", accel, key, gdk_mods, GTK_ACCEL_VISIBLE);
+			}
+			g_signal_connect(
+				menu_item, "activate", G_CALLBACK(menu_clicked), (void *)(long)get_int_field(L, -2, 2));
+			gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
 		}
-		g_signal_connect(
-			menu_item, "activate", G_CALLBACK(menu_clicked), (void *)(long)get_int_field(L, -1, 2));
-		gtk_menu_shell_append(GTK_MENU_SHELL(menu), menu_item);
+		lua_pop(L, 1); // label
 	}
 	return !submenu_root ? menu : submenu_root;
 }

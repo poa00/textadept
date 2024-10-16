@@ -282,32 +282,34 @@ void *read_menu(lua_State *L, int index) {
 	if (lua_getfield(L, index, "title")) menu->setTitle(lua_tostring(L, -1)); // submenu title
 	lua_pop(L, 1); // title
 	for (size_t i = 1; i <= lua_rawlen(L, index); lua_pop(L, 1), i++) {
-		if (lua_rawgeti(L, -1, i) != LUA_TTABLE) continue; // popped on loop
+		if (lua_rawgeti(L, index, i) != LUA_TTABLE) continue; // popped on loop
 		if (bool isSubmenu = lua_getfield(L, -1, "title"); lua_pop(L, 1), isSubmenu) {
 			auto submenu = static_cast<QMenu *>(read_menu(L, -1));
 			menu->addMenu(submenu); // menu does not take ownership
 			continue;
 		}
 		const char *label = (lua_rawgeti(L, -1, 1), lua_tostring(L, -1));
-		if (lua_pop(L, 1), !label) continue;
-		// Menu item table is of the form {label, id, key, modifiers}.
-		QAction *menuItem = *label ? menu->addAction(label) : menu->addSeparator();
-		if (*label && get_int_field(L, -1, 3) > 0) {
-			int key = get_int_field(L, -1, 3), modifiers = get_int_field(L, -1, 4), qtModifiers = 0;
-			if (modifiers & SCMOD_SHIFT) qtModifiers += Qt::SHIFT;
+		if (label) {
+			// Menu item table is of the form {label, id, key, modifiers}.
+			QAction *menuItem = *label ? menu->addAction(label) : menu->addSeparator();
+			if (*label && get_int_field(L, -2, 3) > 0) {
+				int key = get_int_field(L, -2, 3), modifiers = get_int_field(L, -2, 4), qtModifiers = 0;
+				if (modifiers & SCMOD_SHIFT) qtModifiers += Qt::SHIFT;
 #if !__APPLE__
-			if (modifiers & SCMOD_CTRL) qtModifiers += Qt::CTRL;
+				if (modifiers & SCMOD_CTRL) qtModifiers += Qt::CTRL;
 #else
-			if (modifiers & SCMOD_CTRL) qtModifiers += Qt::META;
-			if (modifiers & SCMOD_META) qtModifiers += Qt::CTRL;
+				if (modifiers & SCMOD_CTRL) qtModifiers += Qt::META;
+				if (modifiers & SCMOD_META) qtModifiers += Qt::CTRL;
 #endif
-			if (modifiers & SCMOD_ALT) qtModifiers += Qt::ALT;
-			menuItem->setShortcut(QKeySequence{qtModifiers + key});
-			menuItem->setShortcutContext(Qt::ShortcutContext::WidgetShortcut);
+				if (modifiers & SCMOD_ALT) qtModifiers += Qt::ALT;
+				menuItem->setShortcut(QKeySequence{qtModifiers + key});
+				menuItem->setShortcutContext(Qt::ShortcutContext::WidgetShortcut);
+			}
+			int id = get_int_field(L, -2, 2);
+			QObject::connect(
+				menuItem, &QAction::triggered, menu, [id]() { emit("menu_clicked", LUA_TNUMBER, id, -1); });
 		}
-		int id = get_int_field(L, -1, 2);
-		QObject::connect(
-			menuItem, &QAction::triggered, menu, [id]() { emit("menu_clicked", LUA_TNUMBER, id, -1); });
+		lua_pop(L, 1); // label
 	}
 	return menu;
 }
