@@ -121,6 +121,6 @@ For more information on compiling Textadept, please see the [manual][].
 ## Contribute
 
 Textadept is [open source][]. Feel free to discuss features, report bugs, and submit patches. You
-can also contact me personally (orbitalquark att triplequasar.com).
+can also contact me personally (code att foicica.com).
 
 [open source]: https://github.com/orbitalquark/textadept
