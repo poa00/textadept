@@ -51,7 +51,7 @@ jobs:
           - os: ubuntu-20.04
           - os: windows-2019
             qt: '6.7'
-          - os: macOS-12
+          - os: macOS-13
             qt: '6.5'
     runs-on: ${{ matrix.os }}
     steps:
