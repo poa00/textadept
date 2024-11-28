@@ -19,7 +19,9 @@ lfs.chdir(dir)
 
 local counts, langs = {}, {}
 
-for tag in io.popen('git tag --sort=authordate'):lines() do
+local function count(tag)
+	if tag == 'textadept_nightly' then return end
+
 	print('Counting ' .. tag)
 	os.execute('git checkout -q ' .. tag)
 	local time = io.popen('git show -s --format=%at'):read()
@@ -49,6 +51,9 @@ for tag in io.popen('git tag --sort=authordate'):lines() do
 
 	counts[time].sum = {sum_code, sum_comments, sum_blanks}
 end
+
+for tag in io.popen('git tag --sort=authordate'):lines() do count(tag) end
+count('default') -- latest commit
 table.sort(langs)
 
 local csv_file = os.tmpname()
