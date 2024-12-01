@@ -2,6 +2,35 @@
 
 [Atom Feed](https://github.com/orbitalquark/textadept/releases.atom)
 
+### 12.5 (01 Dec 2024)
+
+Download:
+
+- [Textadept 12.5 -- Windows][]
+- [Textadept 12.5 -- macOS 11+][]
+- [Textadept 12.5 -- Linux][]
+- [Textadept 12.5 -- Modules][]
+
+Bugfixes:
+
+- Do not consider tab width when jumping to a compile/run/build/test error column number.
+- Fixed typing of single-character lexer names triggering key chains.
+- Fixed Tools > Select Command on macOS when invoked via key binding.
+
+Changes:
+
+- Restored BSD support.
+- Switched back to Qt Fusion style on Windows.
+- Support italic and underline styles in the terminal version.
+- LSP: added support for code actions and workspace edits.
+- Updated to [Scinterm][] 5.2.
+
+[Textadept 12.5 -- Windows]: https://github.com/orbitalquark/textadept/releases/download/textadept_12.5/textadept_12.5.win.zip
+[Textadept 12.5 -- macOS 11+]: https://github.com/orbitalquark/textadept/releases/download/textadept_12.5/textadept_12.5.macOS.zip
+[Textadept 12.5 -- Linux]: https://github.com/orbitalquark/textadept/releases/download/textadept_12.5/textadept_12.5.linux.tgz
+[Textadept 12.5 -- Modules]: https://github.com/orbitalquark/textadept/releases/download/textadept_12.5/textadept_12.5.modules.zip
+[Scinterm]: https://github.com/orbitalquark/scinterm
+
 ### 12.5 beta 3 (01 Oct 2024)
 
 Download:
