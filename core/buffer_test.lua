@@ -1,4 +1,4 @@
--- Copyright 2020-2024 Mitchell. See LICENSE.
+-- Copyright 2020-2025 Mitchell. See LICENSE.
 
 test('buffer.delete should emit events.BUFFER_DELETED', function()
 	local f<close> = test.tmpfile(true)

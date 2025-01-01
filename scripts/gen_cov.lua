@@ -1,5 +1,5 @@
 #!/usr/bin/lua
--- Copyright 2024 Mitchell. See LICENSE.
+-- Copyright 2024-2025 Mitchell. See LICENSE.
 
 -- Outputs an actionable code coverage list from LuaCov and Gcovr reports.
 -- Requires luacov and gcovr to be installed.

@@ -1,4 +1,4 @@
--- Copyright 2007-2024 Mitchell. See LICENSE.
+-- Copyright 2007-2025 Mitchell. See LICENSE.
 
 --- Compile and run source code files with Textadept.
 -- Language [modules][] may tweak the `textadept.run.compile_commands`, and

@@ -1,4 +1,4 @@
--- Copyright 2020-2024 Mitchell. See LICENSE.
+-- Copyright 2020-2025 Mitchell. See LICENSE.
 
 teardown(function()
 	while textadept.snippets.active do textadept.snippets.cancel() end

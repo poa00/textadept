@@ -1,4 +1,4 @@
--- Copyright 2020-2024 Mitchell. See LICENSE.
+-- Copyright 2020-2025 Mitchell. See LICENSE.
 
 test('macro.record should record keyboard macros', function()
 	local _<close> = test.mock(keys, 'ctrl+,', textadept.macros.record)

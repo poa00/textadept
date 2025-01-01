@@ -1,4 +1,4 @@
--- Copyright 2020-2024 Mitchell. See LICENSE.
+-- Copyright 2020-2025 Mitchell. See LICENSE.
 
 -- Test find and replace text.
 local find = 'word'

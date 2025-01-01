@@ -1,4 +1,4 @@
--- Copyright 2020-2024 Mitchell. See LICENSE.
+-- Copyright 2020-2025 Mitchell. See LICENSE.
 
 --- Simulates clicking the given menu item.
 -- @param item String menu path (e.g. 'File/New').
