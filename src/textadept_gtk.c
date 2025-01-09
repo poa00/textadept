@@ -172,7 +172,8 @@ void new_window(SciObject *(*get_view)(void)) {
 	gtk_box_pack_start(GTK_BOX(editors), get_view(), true, true, 0);
 	gtk_paned_add1(GTK_PANED(paned), editors);
 	command_entry_box = gtk_hbox_new(false, 0);
-	command_entry_label = gtk_label_new(""), gtk_label_set_yalign(GTK_LABEL(command_entry_label), 0);
+	command_entry_label = gtk_label_new("");
+	gtk_misc_set_alignment(GTK_MISC(command_entry_label), 0, 0);
 	gtk_box_pack_start(GTK_BOX(command_entry_box), command_entry_label, false, false, 5);
 	gtk_box_pack_start(GTK_BOX(command_entry_box), command_entry, true, true, 5);
 	gtk_paned_add2(GTK_PANED(paned), command_entry_box);
