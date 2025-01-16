@@ -747,7 +747,7 @@ setmetatable(M,
 -- Update snippet transforms when text is added or deleted.
 events.connect(events.UPDATE_UI, function(updated)
 	if not active_snippet then return end
-	if updated & buffer.UPDATE_CONTENT > 0 then active_snippet:update_transforms() end
+	if updated and updated & buffer.UPDATE_CONTENT > 0 then active_snippet:update_transforms() end
 	if #keys.keychain == 0 then ui.statusbar_text = _L['Snippet active'] end
 end)
 

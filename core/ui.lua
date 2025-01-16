@@ -302,7 +302,7 @@ events.connect(events.APPLEEVENT_ODOC,
 
 -- Sets buffer statusbar text.
 events.connect(events.UPDATE_UI, function(updated)
-	if updated & 3 == 0 then return end -- ignore scrolling
+	if not updated or updated & 3 == 0 then return end -- ignore scrolling
 	local text = not CURSES and '%s %d/%d    %s %d    %s    %s    %s    %s' or
 		'%s %d/%d  %s %d  %s  %s  %s  %s'
 	local pos = buffer.current_pos

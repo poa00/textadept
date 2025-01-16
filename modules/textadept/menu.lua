@@ -24,7 +24,8 @@ local function deselect()
 	buffer:set_empty_selection(buffer._deselect_pos)
 end
 events.connect(events.UPDATE_UI, function(updated)
-	if updated & 3 > 0 and buffer.selection_empty then buffer._deselect_pos = buffer.current_pos end
+	if not updated or updated & 3 == 0 or not buffer.selection_empty then return end
+	buffer._deselect_pos = buffer.current_pos
 end)
 --- Wrapper around `buffer:upper_case()` and `buffer:lower_case()`.
 local function change_case(upper)

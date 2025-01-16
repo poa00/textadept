@@ -551,7 +551,7 @@ end, 1)
 
 -- Highlights matching braces.
 events.connect(events.UPDATE_UI, function(updated)
-	if updated & 3 == 0 then return end -- ignore scrolling
+	if not updated or updated & 3 == 0 then return end -- ignore scrolling
 	if brace_matches[buffer.char_at[buffer.current_pos]] then
 		local match = buffer:brace_match(buffer.current_pos, 0)
 		local f = match ~= -1 and view.brace_highlight or view.brace_bad_light
@@ -563,7 +563,7 @@ end)
 
 -- Highlight all instances of the current or selected word.
 events.connect(events.UPDATE_UI, function(updated)
-	if updated & buffer.UPDATE_SELECTION == 0 or ui.find.active then return end
+	if not updated or updated & buffer.UPDATE_SELECTION == 0 or ui.find.active then return end
 	if M.highlight_words == M.HIGHLIGHT_NONE then return end
 	buffer.indicator_current = M.INDIC_HIGHLIGHT
 	buffer:indicator_clear_range(1, buffer.length)
